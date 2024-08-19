@@ -1,0 +1,20 @@
+server:
+  port: 9992
+
+spring:
+  application:
+    name: Terminals
+  cloud:
+    consul:
+      host: localhost
+      config:
+        fail-fast: true
+        enabled: true
+        prefix: config
+        defaultContext: application
+        data-key: data
+        profileSeparator: '::'
+        format: YAML
+      discovery:
+        host: localhost
+        health-check-path: /FTR/actuator/health

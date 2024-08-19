@@ -1,0 +1,28 @@
+server :
+  port : 9995
+
+spring :
+  application :
+    name : Gateway
+  cloud :
+    gateway :
+      discovery:
+        locator :
+          enabled : true
+      routes :
+        - id : User
+          uri : lb://User
+          predicates :
+            - Path=/FTR/user/**
+        - id : Terminals
+          uri : lb://Terminals
+          predicates :
+            - Path=/FTR/terminals/**
+        - id : Vehicles
+          uri : lb://Vehicles
+          predicates :
+            - Path=/FTR/vehicles/**
+        - id: Workitems
+          uri: lb://Workitems
+          predicates:
+            - Path=/FTR/workItems/**
