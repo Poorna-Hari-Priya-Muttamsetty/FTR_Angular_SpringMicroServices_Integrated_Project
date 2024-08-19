@@ -17,10 +17,13 @@ The frontend is developed using Angular, providing a dynamic and responsive user
 
 **Feign:**  
 Simplifies communication between microservices by abstracting HTTP client code.  
+  
 **Circuit Breaker:**  
-Implements fault tolerance to ensure the system remains responsive even during service outages.  
+Implements fault tolerance to ensure the system remains responsive even during service outages. 
+  
 **Load Balancer:**  
 Distributes network traffic across multiple service instances, enhancing performance and reliability.  
+  
 **Resilience:**  
 Ensures the application can recover from unexpected failures, maintaining robust service delivery.  
 
