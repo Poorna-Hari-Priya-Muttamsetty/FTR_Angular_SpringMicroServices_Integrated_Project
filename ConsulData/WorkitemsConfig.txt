@@ -1,0 +1,9 @@
+#path : /config/Workitems/data
+
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/freight_transport_region_workitems
+
+server:
+  port: 9994

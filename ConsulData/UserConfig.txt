@@ -1,0 +1,8 @@
+#path : /config/User/data
+
+spring:
+  datasource:
+      url: jdbc:mysql://localhost:3306/freight_transport_region_user
+
+server:
+  port: 9991

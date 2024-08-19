@@ -1,0 +1,8 @@
+#path : /config/Vehicles/data
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/freight_transport_region_vehicles
+
+server:
+  port: 9993
