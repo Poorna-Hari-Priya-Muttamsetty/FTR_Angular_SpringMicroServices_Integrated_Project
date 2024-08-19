@@ -1,0 +1,259 @@
+<nav class="navbar navbar-expand-md">
+
+    <a class="navbar-brand" href="#">FTR</a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+        <ul class="navbar-nav navStyle">
+            <li class="nav-item dropdown">
+                <button type="button" (click)="clickInsert()">Insert New Vehicle Details</button>&nbsp;
+                <button type="button" (click)="clickAll()">Fetch Available Vehicle Details</button>&nbsp;
+                <button type="button" (click)="clickName()">Fetch Vehicles By Name</button>&nbsp;
+                <button type="button" (click)="clickNumber()">Fetch Vehicle By Number</button>&nbsp;
+                <button type="button" (click)="clickDelete()">Delete Vehicle</button>&nbsp;
+                <button (click)="goBack()">Go Back</button>
+            </li>
+        </ul>
+    </div>
+    <div class="topnav-right">
+        <a [routerLink]="['/home']" [routerLinkActive]="['activeLink']">Logout</a>
+    </div>
+</nav>
+
+<div *ngIf="insertif" class="container">
+    <h1 style="color: blueviolet;">Add Vehicle</h1>
+    <form [formGroup]="insertForm">
+        <div class="form-group">
+            <label for="vehicle_number">Vehicle Number</label><br>
+            <input id="vehicle_number" type="text" class="form-control" formControlName="vehicle_number" /><br>
+            <div *ngIf="insertForm.controls['vehicle_number'].errors && (insertForm.controls['vehicle_number'].dirty || insertForm.controls['vehicle_number'].touched)"
+                class="red">
+                <div *ngIf="insertForm.controls['vehicle_number'].errors?.['required']">Vehicle Number is required</div>
+                <div *ngIf="insertForm.controls['vehicle_number'].errors?.['pattern']">Invalid Vehicle Number - should be in format (RR7777 : 2 capital letters followed by 4 digits)</div>
+            </div>
+        </div><br>
+        <div class="form-group">
+            <label for="vehicle_name">Vehicle Name</label><br>
+            <div>
+                <select id="vehicle_name" formControlName="vehicle_name">
+                    <option value="Tower crane">Tower crane</option>
+                    <option value="FirePlace Crane">FirePlace Crane</option>
+                    <option value="Double treadwheel Crane">Double treadwheel Crane</option>
+                    <option value="Crawler Crane">Crawler Crane</option>
+                    <option value="Aerial Crane">Aerial Crane</option>
+                    <option value="Deck Crane">Deck Crane</option>
+                </select>
+            </div>
+        </div><br>
+        <div class="form-group">
+            <label for="max_lifting_capacity">Max Lifting Capacity</label><br>
+            <input id="max_lifting_capacity" type="text" class="form-control"
+                formControlName="max_lifting_capacity" /><br>
+            <div *ngIf="insertForm.controls['max_lifting_capacity'].errors && (insertForm.controls['max_lifting_capacity'].dirty || insertForm.controls['max_lifting_capacity'].touched)"
+                class="red">
+                <div *ngIf="insertForm.controls['max_lifting_capacity'].errors?.['required']">Max Lifting Capacity is
+                    required</div>
+                <div *ngIf="insertForm.controls['max_lifting_capacity'].errors?.['pattern']">Max Lifting Capacity should
+                    be a number</div>
+            </div>
+        </div><br>
+        <div class="form-group">
+            <label for="retire_date">Retire Date</label><br>
+            <input id="retire_date" type="date" class="form-control" formControlName="retire_date"
+                placeholder="dd-mmm-yyyy" min="2000-01-01" max="2030-12-31" /><br>
+            <div *ngIf="insertForm.controls['retire_date'].errors && (insertForm.controls['retire_date'].dirty || insertForm.controls['retire_date'].touched)"
+                class="red">
+                <div *ngIf="insertForm.controls['retire_date'].errors?.['required']">Retire Date is required</div>
+            </div>
+        </div><br>
+        <div class="form-group">
+            <label for="vehicle_status">Vehicle Status</label><br>
+            <div>
+                <select id="vehicle_status" formControlName="vehicle_status">
+                    <option value="Active">Active</option>
+                    <option value="Retired">Retired</option>
+                    <option value="InProgress">InProgress</option>
+                </select>
+            </div>
+        </div><br>
+        <div class="form-group">
+            <label for="harbor_location">Harbor Location</label><br>
+            <input id="harbor_location" type="text" class="form-control" formControlName="harbor_location" /><br>
+            <div *ngIf="insertForm.controls['harbor_location'].errors && (insertForm.controls['harbor_location'].dirty || insertForm.controls['harbor_location'].touched)"
+                class="red">
+                <div *ngIf="insertForm.controls['harbor_location'].errors?.['required']">Harbor Location is required
+                </div>
+            </div>
+        </div><br>
+        <div class="form-group">
+            <label for="country">Country</label><br>
+            <input id="country" type="text" class="form-control" formControlName="country" /><br>
+            <div *ngIf="insertForm.controls['country'].errors && (insertForm.controls['country'].dirty || insertForm.controls['country'].touched)"
+                class="red">
+                <div *ngIf="insertForm.controls['country'].errors?.['required']">Country is required</div>
+            </div>
+        </div><br>
+        <div class="p-field text-center">
+            <button type="submit" pButton id="submit" label="Add" (click)="insert()"> Add </button>
+        </div><br>
+        <div *ngIf="successMessage != null && insertif " style="text-align: center" class="green">
+            <h1> {{ successMessage }}</h1>
+        </div>
+
+        <div *ngIf="errorMessage != null && insertif" style="text-align: center" class="red">
+            <h1>{{ errorMessage }} </h1>
+        </div>
+    </form>
+</div>
+<div>
+
+</div>
+
+<div *ngIf="showVehiclesDetails">
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Vehicle Number</th>
+                <th>Vehicle Name</th>
+                <th>Max Lifting Capacity</th>
+                <th>Retire Date</th>
+                <th>Vehicle Status</th>
+                <th>Country</th>
+                <th>Harbor Location</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let v of vehicles">
+                <td>{{ v.vehicle_number }}</td>
+                <td>{{ v.vehicle_name }}</td>
+                <td>{{ v.max_lifting_capacity }}</td>
+                <td>{{ v.retire_date }}</td>
+                <td>{{ v.vehicle_status }}</td>
+                <td>{{ v.country }}</td>
+                <td>{{ v.harbor_location }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div *ngIf="nameif" class="container">
+    <form [formGroup]="nameForm">
+        <div class="form-group">
+            <label for="vehicle_name">Vehicle Name</label>
+            <select id="vehicle_name" formControlName="vehicle_name">
+                <option value="Tower crane">Tower crane</option>
+                <option value="FirePlace Crane">FirePlace Crane</option>
+                <option value="Double treadwheel Crane">Double treadwheel Crane</option>
+                <option value="Crawler Crane">Crawler Crane</option>
+                <option value="Aerial Crane">Aerial Crane</option>
+                <option value="Deck Crane">Deck Crane</option>
+            </select>
+            <div class="p-field text-center">
+                <br>
+                <button type="button" pButton id="submit" (click)="getByName()" label="Search">Search</button>
+            </div>
+        </div>
+        <div *ngIf="vehicles!=null && nameif && tableToggle">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Vehicle Number</th>
+                        <th>Vehicle Name</th>
+                        <th>Max Lifting Capacity</th>
+                        <th>Retire Date</th>
+                        <th>Vehicle Status</th>
+                        <th>Country</th>
+                        <th>Harbor Location</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let v of vehicles">
+                        <td>{{ v.vehicle_number }}</td>
+                        <td>{{ v.vehicle_name }}</td>
+                        <td>{{ v.max_lifting_capacity }}</td>
+                        <td>{{ v.retire_date }}</td>
+                        <td>{{ v.vehicle_status }}</td>
+                        <td>{{ v.country }}</td>
+                        <td>{{ v.harbor_location }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div *ngIf="errorMessage != null && nameif" style="text-align: center" class="red">
+            <h1>{{ errorMessage }} </h1>
+        </div>
+    </form>
+</div>
+
+<div *ngIf="numif" class="container">
+    <form [formGroup]="numberForm">
+        <div class="form-group">
+            <label for="vehicle_number">Vehicle Number</label>
+            <input id="vehicle_number" type="text" class="form-control" formControlName="vehicle_number" />
+            <div *ngIf="numberForm.controls['vehicle_number'].errors && (numberForm.controls['vehicle_number'].dirty || numberForm.controls['vehicle_number'].touched)"
+                class="red">
+                <div *ngIf="numberForm.controls['vehicle_number'].errors?.['required']">Vehicle Number is required</div>
+                <div *ngIf="numberForm.controls['vehicle_number'].errors?.['pattern']">Invalid Vehicle Number- should be in format (RR7777 : 2 capital letters followed by 4 digits)</div>
+            </div>
+            <div class="p-field text-center">
+                <br>
+                <button type="button" pButton id="submit" (click)="getByNumber()" label="Search">Search</button>
+            </div>
+        </div>
+        <div *ngIf="vehicle != null && numif && tableToggle">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Vehicle Number</th>
+                        <th>Vehicle Name</th>
+                        <th>Max Lifting Capacity</th>
+                        <th>Retire Date</th>
+                        <th>Vehicle Status</th>
+                        <th>Country</th>
+                        <th>Harbor Location</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ vehicle.vehicle_number }}</td>
+                        <td>{{ vehicle.vehicle_name }}</td>
+                        <td>{{ vehicle.max_lifting_capacity }}</td>
+                        <td>{{ vehicle.retire_date }}</td>
+                        <td>{{ vehicle.vehicle_status }}</td>
+                        <td>{{ vehicle.country }}</td>
+                        <td>{{ vehicle.harbor_location }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div *ngIf="errorMessage != null && numif" style="text-align: center" class="red">
+            <h1>{{ errorMessage }} </h1>
+        </div>
+    </form>
+</div>
+
+<div *ngIf="deleteif" class="container">
+    <form [formGroup]="deleteForm">
+        <div class="form-group">
+            <label for="vehicle_number">Vehicle Number</label>
+            <input id="vehicle_number" type="text" class="form-control" formControlName="vehicle_number" />
+            <div *ngIf="deleteForm.controls['vehicle_number'].errors && (deleteForm.controls['vehicle_number'].dirty || deleteForm.controls['vehicle_number'].touched)"
+                class="red">
+                <div *ngIf="deleteForm.controls['vehicle_number'].errors?.['required']">Vehicle Number is required</div>
+                <div *ngIf="deleteForm.controls['vehicle_number'].errors?.['pattern']">Invalid Vehicle Number- should be in format (RR7777 : 2 capital letters followed by 4 digits)</div>
+            </div>
+            <div class="p-field text-center">
+                <br>
+                <button type="button" pButton id="submit" (click)="delete()" label="Delete">Delete</button>
+            </div>
+        </div>
+        <div *ngIf="successMessage != null && deleteif" style="text-align: center" class="green">
+            <h1> {{ successMessage }}</h1>
+        </div>
+
+        <div *ngIf="errorMessage != null && deleteif" style="text-align: center" class="red">
+            <h1>{{ errorMessage }} </h1>
+        </div>
+    </form>

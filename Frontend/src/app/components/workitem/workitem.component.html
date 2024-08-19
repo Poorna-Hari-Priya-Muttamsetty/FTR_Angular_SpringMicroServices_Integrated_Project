@@ -1,0 +1,228 @@
+<nav class="navbar navbar-expand-md">
+
+    <a class="navbar-brand" href="#">FTR</a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+        <ul class="navbar-nav navStyle">
+            <li class="nav-item dropdown">
+                <button type="submit" (click)="assignTerminalIcon()"> Assign Terminal </button>&nbsp;
+                <button type="submit" (click)="allocateVehicleIcon()"> Allocate Vehicle </button>&nbsp;
+                <button type="submit" (click)="updateWorkitemStatusIcon()"> Update Workitem Status </button>&nbsp;
+                <button type="submit" (click)="fetchWorkitemsByVehicleNumberIcon()"> Fetch Workitem Details By Vehicle
+                    Number </button>&nbsp;
+                <button type="submit" (click)="fetchWorkitemsByUserIcon()"> Fetch Workitem Details By User </button>&nbsp;
+                <button type="submit" (click)="fetchAllWorkitemsIcon()"> Fetch All Workitem Details </button>&nbsp;
+                <button (click)="goBack()">Go Back</button>
+            </li>
+        </ul>
+    </div>
+    <div class="topnav-right">
+        <a [routerLink]="['/home']" [routerLinkActive]="['activeLink']">Logout</a>
+    </div>
+</nav>
+
+<!--Assign Terminal-->
+<div *ngIf="assignTerminal">
+    <div>
+        <label> Workitem ID </label>
+        <input class="form-control" required type="text" [(ngModel)]="workitem.workitem_id" name="workitemId"
+            id="email">
+    </div>
+    <div>
+        <label> Terminal ID </label>
+        <input class="form-control" required type="text" [(ngModel)]="workitemTerminal.terminal_id" name="terminalId"
+            id="terminalId">
+    </div>
+    <div>
+        <input type="submit" (click)="assignTerminalNow()">
+    </div>
+    <p *ngIf="successMessage != null && assignTerminal"> {{ successMessage }} </p>
+    <p *ngIf="errorMessage != null " class="red"> {{ errorMessage }} </p>
+</div>
+
+<!--Allocate Vehicle-->
+<div *ngIf="allocateVehicle">
+
+    <div>
+        <label> Workitem ID </label>
+        <input class="form-control" required type="text" [(ngModel)]="workitem.workitem_id" name="workitemId"
+            id="workitemId">
+
+    </div>
+    <div>
+        <label> Vehicle Number </label>
+        <input class="form-control" required type="text" [(ngModel)]="workitemVehicle.vehicle_number" name="vehicle_number"
+            id="vehicle_number">
+
+    </div>
+    <div>
+        <input type="submit" (click)="allocateVehicleNow()">
+    </div>
+    <p *ngIf="successMessage != null && allocateVehicle"> {{ successMessage }} </p>
+    <p *ngIf="errorMessage != null" class="red"> {{ errorMessage }} </p>
+</div>
+
+<!--Update Work Item status-->
+<div *ngIf="updateWorkitemStatus">
+
+    <div>
+        <label>Workitem ID</label>
+        <input class="form-control" required type="text" [(ngModel)]="workitem.workitem_id" name="workitemId"
+            id="workitemId">
+    </div>
+    <div>
+        <label>Status</label><br>
+        <label>
+            <input class="form-control" type="radio" name="status" value="InProgress" [(ngModel)]="terminal.status">
+            InProgress
+        </label>
+        <label>
+            <input class="form-control" type="radio" name="status" value="Completed" [(ngModel)]="terminal.status">
+            Completed
+        </label>
+        <label>
+            <input class="form-control" type="radio" name="status" value="Retired" [(ngModel)]="terminal.status">
+            Retired
+        </label>
+    </div>
+    <div>
+        <input type="submit" (click)="updateWorkitemStatusNow()">
+    </div>
+    <p *ngIf="successMessage != null && updateWorkitemStatus"> {{ successMessage }} </p>
+    <p *ngIf="errorMessage != null" class="red"> {{ errorMessage }} </p>
+</div>
+
+<!--Fetch Workitems By Vehicle Number-->
+<div *ngIf="fetchWorkitemsByVehicleNumber">
+    <div>
+        <label>Vehicle Number</label>
+        <input class="form-control" required type="text" [(ngModel)]="workitemVehicle.vehicle_number" name="vehicle_number"
+            id="vehicle_number">
+
+    </div>
+    <div>
+        <input type="submit" (click)="fetchWorkitemsByVehicleNumberNow()">
+    </div>
+    <div *ngIf="showFetchWorkitemsByVehicleNumber && workitemDetails!=null && fetchWorkitemsByVehicleNumber">
+        <h1> workitem Details </h1>
+        <table class="table table-bordered table-striped">
+            <tr>
+                <th>Workitem ID</th>
+                <th>User ID</th>
+                <th>Item Name</th>
+                <th>Item Type</th>
+                <th>Item Description</th>
+                <th>Message To Recipient</th>
+                <th>Quantity</th>
+                <th>Source Country</th>
+                <th>Destination Country</th>
+                <th>Selected Harbour Location</th>
+                <th>Shipping Date</th>
+                <th>Amount</th>
+            </tr>
+            <tr>
+                <td>{{workitemDetails.workitem_id}}</td>
+                <td>{{workitemDetails.user_id}}</td>
+                <td>{{workitemDetails.item_name}}</td>
+                <td>{{workitemDetails.item_type}}</td>
+                <td>{{workitemDetails.item_description}}</td>
+                <td>{{workitemDetails.message_to_recipient}}</td>
+                <td>{{workitemDetails.quantity}}</td>
+                <td>{{workitemDetails.source_country}}</td>
+                <td>{{workitemDetails.destination_country}}</td>
+                <td>{{workitemDetails.selected_harbor_location}}</td>
+                <td>{{workitemDetails.shipping_date}}</td>
+                <td>{{workitemDetails.amount}}</td>
+            </tr>
+        </table>
+        <div *ngIf="errorMessage != null " class="red"> {{ errorMessage }}</div>
+    </div>
+
+</div>
+
+<!--Fetch Workitems By User-->
+<div *ngIf="fetchWorkitemsByUser">
+    <div>
+        <label>User</label>
+        <input class="form-control" required type="text" [(ngModel)]="workitem.user_id" name="user_id" id="user_id">
+    </div>
+    <div>
+        <input type="submit" (click)="fetchWorkitemsByUserNow()">
+    </div>
+    <div *ngIf="ShowFetchWorkitemsByUser  && workitems!=null && fetchWorkitemsByUser">
+        <h1> Workitem Details </h1>
+        <table border="solid">
+            <tr>
+                <th>Workitem ID</th>
+                <th>User ID</th>
+                <th>Item Name</th>
+                <th>Item Type</th>
+                <th>Item Description</th>
+                <th>Message To Recipient</th>
+                <th>Quantity</th>
+                <th>Source Country</th>
+                <th>Destination Country</th>
+                <th>Selected Harbour Location</th>
+                <th>Shipping Date</th>
+                <th>Amount</th>
+            </tr>
+            <tr *ngFor="let wi of workitems">
+                <td>{{wi.workitem_id}}</td>
+                <td>{{wi.user_id}}</td>
+                <td>{{wi.item_name}}</td>
+                <td>{{wi.item_type}}</td>
+                <td>{{wi.item_description}}</td>
+                <td>{{wi.message_to_recipient}}</td>
+                <td>{{wi.quantity}}</td>
+                <td>{{wi.source_country}}</td>
+                <td>{{wi.destination_country}}</td>
+                <td>{{wi.selected_harbor_location}}</td>
+                <td>{{wi.shipping_date}}</td>
+                <td>{{wi.amount}}</td>
+
+            </tr>
+        </table>
+        <div *ngIf="errorMessage != null" class="red"> {{ errorMessage }}</div>
+    </div>
+</div>
+
+<!--Fetch All Workitems-->
+<div *ngIf="fetchAllWorkitems  && workitems!=null">
+    <h1>  Workitems Details  </h1>
+    <table border="solid">
+        <tr>
+            <th>Workitem ID</th>
+            <th>User ID</th>
+            <th>Item Name</th>
+            <th>Item Type</th>
+            <th>Item Description</th>
+            <th>Message To Recipient</th>
+            <th>Quantity</th>
+            <th>Source Country</th>
+            <th>Destination Country</th>
+            <th>Selected Harbour Location</th>
+            <th>Shipping Date</th>
+            <th>Amount</th>
+        </tr>
+        <tr *ngFor="let wi of workitems">
+            <td>{{wi.workitem_id}}</td>
+            <td>{{wi.user_id}}</td>
+            <td>{{wi.item_name}}</td>
+            <td>{{wi.item_type}}</td>
+            <td>{{wi.item_description}}</td>
+            <td>{{wi.message_to_recipient}}</td>
+            <td>{{wi.quantity}}</td>
+            <td>{{wi.source_country}}</td>
+            <td>{{wi.destination_country}}</td>
+            <td>{{wi.selected_harbor_location}}</td>
+            <td>{{wi.shipping_date}}</td>
+            <td>{{wi.amount}}</td>
+
+        </tr>
+    </table>
+    <div *ngIf="errorMessage != null && fetchAllWorkitems" class="red"> {{ errorMessage }}</div>
+
+</div>

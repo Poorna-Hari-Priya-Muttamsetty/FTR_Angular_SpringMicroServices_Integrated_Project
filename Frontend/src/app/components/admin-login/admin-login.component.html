@@ -1,0 +1,39 @@
+<div class="topnav">
+  <a class="active" href="#home">FTR</a>
+  <div class="topnav-right">
+    <a [routerLink]="['/user-login']" routerLinkActive="activeLink">User</a>
+  </div>
+</div>
+
+<div class="container">
+  <h1>Admin Login</h1>
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="adminName">Admin Name </label>
+      <input id="adminName" type="text" class="form-control" formControlName="adminName" /><br>
+      <div *ngIf="loginForm.controls['adminName'].errors && 
+                      (loginForm.controls['adminName'].dirty || loginForm.controls['adminName'].touched)" class="red">
+        <div *ngIf="loginForm.controls['adminName'].errors?.['required']">Admin Name is required</div>
+      </div>
+    </div><br>
+
+    <div class="form-group">
+      <label for="password">Password </label>
+      <input id="password" type="password" class="form-control" formControlName="password" /><br>
+      <div *ngIf="loginForm.controls['password'].errors && 
+                      (loginForm.controls['password'].dirty || loginForm.controls['password'].touched)" class="red">
+        <div *ngIf="loginForm.controls['password'].errors?.['required']">Password is required</div>
+      </div>
+    </div><br>
+
+    <div class="p-field text-center">
+      <button type="submit" [disabled]="loginForm.invalid" class="green" id="submit" label="Login"> LOGIN </button>
+      <div *ngIf="errorif" class="red">{{ errorMsg }}<br></div><br>
+    </div>
+  </form>
+</div>
+
+<!-- Uncomment if you want to display a message -->
+<!-- <div style="text-align: center">
+  <h1>{{message}}</h1>
+</div> -->

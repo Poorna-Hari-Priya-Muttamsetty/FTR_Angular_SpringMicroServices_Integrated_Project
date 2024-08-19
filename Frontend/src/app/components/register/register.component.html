@@ -1,0 +1,130 @@
+<div class="topnav">
+    <a class="active">FTR</a>
+    <div class="topnav-right">
+        <button (click)="goBack()">Go Back</button>
+    </div>
+</div>
+
+<div class="image"></div>
+
+<div class="content">
+    <div class="reg" style="color: blueviolet;"> Register </div>
+    <form [formGroup]="registerForm">
+
+        <div class="form-group">
+            <label class="formLabel">First Name </label><br>
+            <input type="text" class="form-control" formControlName="firstName"><br>
+            <div *ngIf="registerForm.controls['firstName'].errors && registerForm.controls['firstName'].dirty">
+                <p *ngIf="registerForm.controls['firstName'].errors['required']" class="alert1">First Name is required!
+                </p>
+                <p *ngIf="registerForm.controls['firstName'].errors['maxlength']" class="alert1">First Name Max Length
+                    is 20!</p>
+            </div>
+        </div><br>
+        <div class="form-group">
+            <label class="formLabel">Last Name </label><br>
+            <input type="text" class="form-control" formControlName="lastName"><br>
+            <div *ngIf="registerForm.controls['lastName'].errors && registerForm.controls['lastName'].dirty">
+                <p *ngIf="registerForm.controls['lastName'].errors['required']" class="alert1">Last Name is required!
+                </p>
+                <p *ngIf="registerForm.controls['lastName'].errors['maxlength']" class="alert1">Last Name Max Length is
+                    20!</p>
+            </div>
+        </div><br>
+        <div class="form-group">
+            <label class="formLabel">Email Id</label><br>
+            <input type="text" class="form-control" formControlName="emailId"><br>
+            <div *ngIf="registerForm.controls['emailId'].errors && registerForm.controls['emailId'].dirty">
+                <p *ngIf="registerForm.controls['emailId'].errors['required']" class="alert1">Email is required!</p>
+                <p *ngIf="registerForm.controls['emailId'].errors['email']" class="alert1">Email format is incorrect!
+                </p>
+            </div><br>
+        </div>
+        <div class="form-group">
+            <label class="formLabel">Mobile Number</label><br>
+            <input type="text" class="form-control" formControlName="mobileNumber"><br>
+            <div *ngIf="registerForm.controls['mobileNumber'].errors && registerForm.controls['mobileNumber'].dirty">
+                <p *ngIf="registerForm.controls['mobileNumber'].errors['required']" class="alert1">Mobile Number is
+                    required!</p>
+                <p *ngIf="registerForm.controls['mobileNumber'].errors['maxlength'] || registerForm.controls['mobileNumber'].errors['minlength']"
+                    class="alert1">Mobile Number Length should be 10!</p>
+            </div>
+        </div><br>
+        <div class="form-group">
+            <label class="formLabel">Password</label><br>
+            <input type="password" class="form-control" formControlName="password"><br>
+            <div *ngIf="registerForm.controls['password'].errors && registerForm.controls['password'].dirty">
+                <p *ngIf="registerForm.controls['password'].errors['required']" class="alert1">Password is required!</p>
+                <p *ngIf="registerForm.controls['password'].errors['maxlength'] || registerForm.controls['password'].errors['minlength']"
+                    class="alert1">Password Length should be between 8 and 12!</p>
+                <p *ngIf="registerForm.controls['password'].errors['pattern']" class="alert1"> Min 1 special character,
+                    1 Captial and 1 number is required!</p>
+            </div>
+        </div><br>
+        <div class="form-group">
+            <label class="formLabel">Nationality</label><br>
+            <input type="text" class="form-control" formControlName="nationality"><br>
+            <div *ngIf="registerForm.controls['nationality'].errors && registerForm.controls['nationality'].dirty">
+                <p *ngIf="registerForm.controls['nationality'].errors['required']" class="alert1">Nationality is
+                    required!</p>
+                <p *ngIf="registerForm.controls['nationality'].errors['maxlength']" class="alert1">Nationality Max
+                    Length is 20!</p>
+            </div>
+        </div><br>
+        <div class="form-group">
+            <label class="formLabel">Passport Number</label><br>
+            <input type="text" class="form-control" formControlName="passportNumber"><br>
+            <div
+                *ngIf="registerForm.controls['passportNumber'].errors && registerForm.controls['passportNumber'].dirty">
+                <p *ngIf="registerForm.controls['passportNumber'].errors['required']" class="alert1">Passport Number is
+                    required!</p>
+                <p *ngIf="registerForm.controls['passportNumber'].errors['maxlength'] || registerForm.controls['passportNumber'].errors['minlength']"
+                    class="alert1">Passport Number Length should be between 7 and 12!</p>
+            </div>
+        </div><br>
+        <div class="form-group">
+            <label class="formLabel">Permanent Address</label><br>
+            <input type="text" class="form-control" formControlName="permanentAddress"><br>
+            <div
+                *ngIf="registerForm.controls['permanentAddress'].errors && registerForm.controls['permanentAddress'].dirty">
+                <p *ngIf="registerForm.controls['permanentAddress'].errors['required']" class="alert1">Permanent Address
+                    is required!</p>
+                <p *ngIf="registerForm.controls['permanentAddress'].errors['maxlength']" class="alert1">Permanent
+                    Address Max Length is 200!</p>
+            </div>
+        </div><br>
+        <div class="form-group">
+            <label class="formLabel">Office Address</label><br>
+            <input type="text" class="form-control" formControlName="officeAddress"><br>
+            <div *ngIf="registerForm.controls['officeAddress'].errors && registerForm.controls['officeAddress'].dirty">
+                <p *ngIf="registerForm.controls['officeAddress'].errors['required']" class="alert1">Office Address is
+                    required!</p>
+                <p *ngIf="registerForm.controls['officeAddress'].errors['maxlength']" class="alert1">Office Address Max
+                    Length is 200!</p>
+            </div>
+        </div><br>
+        <div class="form-group">
+            <label class="formLabel">Personal Identification Number</label><br>
+            <input type="text" class="form-control" formControlName="personalIdentificationNumber"><br>
+            <div
+                *ngIf="registerForm.controls['personalIdentificationNumber'].errors && registerForm.controls['personalIdentificationNumber'].dirty">
+                <p *ngIf="registerForm.controls['personalIdentificationNumber'].errors['required']" class="alert1">
+                    Personal Identification Number is required!</p>
+                <p *ngIf="registerForm.controls['personalIdentificationNumber'].errors['maxlength'] || registerForm.controls['personalIdentificationNumber'].errors['minlength']"
+                    class="alert1">Personal Identification Number Length should be 12!</p>
+            </div>
+        </div>
+        <div>
+            <button class="button" [disabled]="!registerForm.valid" type="button" (click)="register()"> Register
+            </button>
+        </div>
+
+        <div class="green" *ngIf="successMessage != null">
+            <h4 style="text-align: center;"> {{ successMessage }}</h4>
+        </div>
+
+        <div class="red" *ngIf="errorMessage != null">
+            <h4 style="text-align: center;"> {{ errorMessage }}</h4>
+        </div>
+    </form>
+</div>

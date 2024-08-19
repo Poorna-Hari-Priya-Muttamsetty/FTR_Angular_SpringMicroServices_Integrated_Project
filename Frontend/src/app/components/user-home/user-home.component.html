@@ -1,0 +1,233 @@
+<nav class="navbar navbar-expand-md">
+    <a class="navbar-brand" href="#">FTR</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+        <ul class="navbar-nav navStyle">
+            <li class="nav-item dropdown">
+                <button type="button" (click)="createUserIcon()">Create New User </button>&nbsp;
+                <button type="button" (click)="viewUserIcon()">View User Profile</button>&nbsp;
+                <button type="button" (click)="updateUserIcon()">Update User Profile</button>&nbsp;
+                <button type="button" (click)="deleteUserIcon()">Delete User Profile</button>&nbsp;
+                <button type="button" (click)="createWorkitemIcon()">Create WorkItem</button>&nbsp;
+                <button type="button" (click)="updateWorkitemIcon()">Update WorkItem</button>&nbsp;
+                <button type="button" (click)="fetchAvailableHarborLocationsIcon()">Fetch available Harbor
+                    Locations</button>&nbsp;
+                <button (click)="goBack()">Go Back</button>
+            </li>
+        </ul>
+    </div>
+    <div class="topnav-right">
+        <a [routerLink]="['/home']" [routerLinkActive]="['activeLink']">Logout</a>
+    </div>
+</nav>
+<br>
+
+<!--View User Details Section -->
+<div *ngIf="userDetails != null && viewUserProfile" class="content">
+    <div class="d-flex justify-content-center">
+        <div class="card text-center"
+            style="border: 1px solid black; width: 50%; background-color: white; filter: opacity(0.8);">
+            <div class="card-body" style="color: black;">
+                <h1 class="card-title">{{userDetails.first_name}} {{userDetails.last_name}} [{{userDetails.user_id}}]
+                </h1>
+                <p class="card-text"><b>Mob:</b> {{userDetails.mobile_number}} | <b>Email:</b> {{userDetails.email_id}}
+                    | <b>Nationality</b>: {{userDetails.nationality}}</p>
+                <p class="card-text"><b>Passport Number:</b> {{userDetails.passport_number}} | <b>PIN:</b>
+                    {{userDetails.personal_identification_number}}</p>
+                <p class="card-text"><b>Permanent Address:</b> {{userDetails.permanent_address}}</p>
+                <p class="card-text"><b>Office Address:</b> {{userDetails.office_address}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="red" *ngIf="errorMessage != null">{{errorMessage}}</div>
+</div>
+
+<!-- Update User Profile Section -->
+<div *ngIf="updateUserProfile" class="content">
+    <div class="d-flex justify-content-center">
+        <div style="border: 1px solid black; width: 50%; background-color: white; filter: opacity(0.8);">
+            <div class="container">
+                <form [formGroup]="userUpdateForm">
+                    <h1 class="display-4">Update User Profile</h1>
+                    <div class="form-group">
+                        <label><b>Mobile Number</b></label><br>
+                        <input #mobileNumber type="text" class="form-control" formControlName="mobileNumber"
+                            placeholder="Enter Mobile Number" name="mobileNumber"><br>
+                        <p *ngIf="userUpdateForm.controls['mobileNumber'].errors && userUpdateForm.controls['mobileNumber'].dirty"
+                            class="red">Mobile is a mandatory field and should be 10 digits</p>
+                    </div><br>
+                    <div class="form-group">
+                        <label><b>Permanant Address</b></label><br>
+                        <input #permanent_address type="text" class="form-control" formControlName="permanent_address"
+                            placeholder="Enter Permanant Address" name="permanent_address"><br>
+                        <p *ngIf="userUpdateForm.controls['permanent_address'].errors && userUpdateForm.controls['permanent_address'].dirty"
+                            class="red">Permanant Address is a mandatory field</p>
+                    </div><br>
+                    <div class="form-group">
+                        <label><b>Office Address</b></label><br>
+                        <input #office_address type="text" class="form-control" formControlName="office_address"
+                            placeholder="Enter Office Address" name="office_address"><br>
+                        <p *ngIf="userUpdateForm.controls['office_address'].errors && userUpdateForm.controls['office_address'].dirty"
+                            class="red">Office Address is a mandatory field</p>
+                    </div><br>
+                    <button type="submit" class="btn btn-primary"
+                        (click)="updateUserNow(mobileNumber.value, permanent_address.value, office_address.value)"
+                        [disabled]="userUpdateForm.invalid">Update User Profile</button>&nbsp;&nbsp;
+                    <button type="button" class="btn btn-primary" (click)="backToProfile()">Back to Profile</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="green" *ngIf="successMessage != null">{{successMessage}}</div>
+    <div class="red" *ngIf="errorMessage != null">{{errorMessage}}</div>
+</div>
+
+<!-- Delete User Section-->
+<div *ngIf="deleteUserProfile" class="content">
+    <div *ngIf="successMessage != null" class="green">
+        {{ successMessage }}
+    </div>
+    <div *ngIf="errorMessage!=null" class="red"> {{ errorMessage }}</div>
+</div>
+
+<!-- Create WorkItem Section -->
+<div *ngIf="createWorkItem" class="content">
+    <div *ngIf="showInsertForm">
+        <div>
+            <label>Workitem ID :</label><br>
+            <input class="form-control" required type="text" [(ngModel)]="workitem.workitem_id" name="workitem_id"
+                id="workitem_id">
+        </div><br>
+        <div>
+            <label>User ID:</label><br>
+            <input class="form-control" required type="text" [(ngModel)]="workitem.user_id" name="user_id" id="user_id">
+        </div><br>
+        <div>
+            <label>Item Name :</label><br>
+            <input class="form-control" required type="text" [(ngModel)]="workitem.item_name" name="item_name"
+                id="item_name">
+        </div><br>
+        <div>
+            <label>Item Type :</label><br>
+            <input class="form-control" required type="text" [(ngModel)]="workitem.item_type" name="item_type"
+                id="item_type">
+        </div><br>
+        <div>
+            <label>Item Description :</label><br>
+            <input class="form-control" required type="text" [(ngModel)]="workitem.item_description"
+                name="item_description" id="item_description">
+        </div><br>
+        <div>
+            <label>Message To Recipient :</label><br>
+            <input class="form-control" required type="text" [(ngModel)]="workitem.message_to_recipient"
+                name="message_to_recipient" id="message_to_recipient">
+        </div><br>
+        <div>
+            <label> Quantity :</label><br>
+            <input class="form-control" required type="text" [(ngModel)]="workitem.quantity" name="quantity"
+                id="quantity">
+        </div><br>
+        <div>
+            <label>Source Country :</label><br>
+            <input class="form-control" required type="text" [(ngModel)]="workitem.source_country" name="source_country"
+                id="source_country">
+        </div><br>
+        <div>
+            <label>Destination Country :</label><br>
+            <input class="form-control" required type="text" [(ngModel)]="workitem.destination_country"
+                name="destination_country" id="destination_country">
+        </div><br>
+        <div>
+            <label>Selected Harbor Location :</label><br>
+            <input class="form-control" required type="text" [(ngModel)]="workitem.selected_harbor_location"
+                name="selected_harbor_location" id="selected_harbor_location">
+        </div><br>
+        <div>
+            <label>Shipping Date :</label><br>
+            <input class="form-control" required type="text" [(ngModel)]="workitem.shipping_date" name="shipping_date"
+                id="shipping_date">
+        </div><br>
+        <div>
+            <label> Amount :</label><br>
+            <input class="form-control" required type="text" [(ngModel)]="workitem.amount" name="amount" id="amount">
+        </div><br>
+        <div>
+            <button type="submit" (click)="createWorkitemNow()"> Insert Work Item </button>
+        </div>
+    </div>
+
+    <div *ngIf="showInsertedDetails && workItemDetails != null && createWorkItem">
+        <h1>Inserted WorkItem Details </h1>
+        <table border="solid">
+            <tr>
+                <th>Workitem ID</th>
+                <th>User ID</th>
+                <th>Item Name</th>
+                <th>Item Type</th>
+                <th>Item Description</th>
+                <th>Message To Recipient</th>
+                <th>Quantity</th>
+                <th>Source Country</th>
+                <th>Destination Country</th>
+                <th>Selected Harbour Location</th>
+                <th>Shipping Date</th>
+                <th>Amount</th>
+            </tr>
+            <tr>
+                <td>{{workItemDetails.workitem_id}}</td>
+                <td>{{workItemDetails.user_id}}</td>
+                <td>{{workItemDetails.item_name}}</td>
+                <td>{{workItemDetails.item_type}}</td>
+                <td>{{workItemDetails.item_description}}</td>
+                <td>{{workItemDetails.message_to_recipient}}</td>
+                <td>{{workItemDetails.quantity}}</td>
+                <td>{{workItemDetails.source_country}}</td>
+                <td>{{workItemDetails.destination_country}}</td>
+                <td>{{workItemDetails.selected_harbor_location}}</td>
+                <td>{{workItemDetails.shipping_date}}</td>
+                <td>{{workItemDetails.amount}}</td>
+            </tr>
+        </table>
+    </div>
+    <div *ngIf="errorMessage!= null" class="red"> {{ errorMessage }} </div>
+</div>
+
+<!-- Update Workitem -->
+<div *ngIf="updateWorkItem">
+
+    <div>
+        <label> Workitem ID </label><br>
+        <input class="form-control" required type="text" [(ngModel)]="workitem.workitem_id" name="workitemId"
+            id="workitemId">
+    </div><br>
+    <div>
+        <label> Shippping Date </label><br>
+        <input class="form-control" required type="date" [(ngModel)]="workitem.shipping_date" name="shipping_date"
+            id="shipping_date">
+    </div><br>
+    <div>
+        <label> Select Harbor Location </label><br>
+        <input class="form-control" required type="text" [(ngModel)]="workitem.selected_harbor_location" name="selected_harbor_location"
+            id="selected_harbor_location">
+    </div><br>
+    <div>
+        <input type="submit" (click)="updateWorkitemNow()">
+    </div><br>
+    <p *ngIf="successMessage != null && updateWorkItem"> {{ successMessage }} </p>
+    <p *ngIf="errorMessage != null" class="red"> {{ errorMessage }} </p>
+</div>
+
+<!-- Fetch Available Harbor Locations section -->
+<div *ngIf="fetchAvailableHarborLocations" class="content">
+    <div>
+        <label>Country :</label><br>
+        <input class="form-control" required type="text" [(ngModel)]="country" name="country" id="country">
+    </div><br>
+    <div>
+        <button type="submit" (click)="fetchAvailableHarborLocationsNow()"> Fetch </button>
+    </div><br>
+    <div *ngIf="availableHarborLocations != null"> {{ availableHarborLocations }} </div>
+    <div *ngIf="errorMessage!=null" class="red"> {{ errorMessage }}</div>
+</div>

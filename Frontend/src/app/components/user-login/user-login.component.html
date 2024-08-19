@@ -1,0 +1,35 @@
+<div class="topnav">
+  <a class="active" href="#home">FTR</a>
+  <div class="topnav-right">
+    <a [routerLink]="['/admin-login']" routerLinkActive="activeLink">Admin</a>
+  </div>
+</div>
+
+<div class="container">
+  <h1>User Login</h1>
+  <form [formGroup]="loginForm" (ngSubmit)="login()">
+    <div class="form-group">
+      <label for="user_name">User Name </label>
+      <input id="user_name" type="text" class="form-control" formControlName="user_name" /><br>
+      <div *ngIf="loginForm.controls['user_name'].errors && 
+                      (loginForm.controls['user_name'].dirty || loginForm.controls['user_name'].touched)" class="red">
+        <div *ngIf="loginForm.controls['user_name'].errors?.['required']">User ID is required</div>
+        <div *ngIf="loginForm.controls['user_name'].errors?.['pattern']">User ID should be a number</div>
+      </div>
+    </div><br>
+
+    <div class="form-group">
+      <label for="password">Password </label>
+      <input id="password" type="password" class="form-control" formControlName="password" /><br>
+      <div *ngIf="loginForm.controls['password'].errors && 
+                      (loginForm.controls['password'].dirty || loginForm.controls['password'].touched)" class="red">
+        <div *ngIf="loginForm.controls['password'].errors?.['required']">Password is required</div>
+      </div>
+    </div><br>
+
+    <div class="p-field text-center">
+      <button class="green" [disabled]="loginForm.invalid" type="submit" id="submit" label="Login"> LOGIN </button>
+      <div *ngIf="errorif" class="red"> {{ errorMsg }} <br></div><br>
+    </div>
+  </form>
+</div>
